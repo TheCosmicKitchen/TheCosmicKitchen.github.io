@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Cosmic Kitchen</title>
+<meta name="description" content="Today's menu from The Cosmic Kitchen: a synth lab, a Japanese learning game, a guitar sight-reading trainer and daily puzzles. All free, served in your browser.">
+<meta name="theme-color" content="#f4ecdc">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍳</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --table: #e9dcc3;
+    --paper: #fbf6ec;
+    --ink: #2b211b;
+    --muted: #7a6a5d;
+    --rule: #d9c9ad;
+    --tomato: #c8462e;
+    --check-a: #f1e5cf;
+    --check-b: #e9dcc3;
+    --shadow: 0 2px 4px rgba(60,40,20,.08), 0 18px 40px rgba(60,40,20,.14);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --table: #15121c;
+      --paper: #221d2a;
+      --ink: #f5ecdf;
+      --muted: #b3a597;
+      --rule: #3b3345;
+      --tomato: #ef7a5a;
+      --check-a: #18141f;
+      --check-b: #15121c;
+      --shadow: 0 2px 4px rgba(0,0,0,.35), 0 18px 40px rgba(0,0,0,.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    font: 16px/1.55 Nunito, system-ui, -apple-system, "Segoe UI", sans-serif;
+    /* gingham tablecloth */
+    background-color: var(--table);
+    background-image:
+      linear-gradient(90deg, color-mix(in srgb, var(--tomato) 9%, transparent) 50%, transparent 50%),
+      linear-gradient(color-mix(in srgb, var(--tomato) 9%, transparent) 50%, transparent 50%);
+    background-size: 44px 44px;
+  }
+  main {
+    max-width: 720px; margin: 40px auto; padding: 0 16px;
+  }
+  .menu {
+    position: relative;
+    background: var(--paper);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 44px clamp(20px, 6vw, 56px) 36px;
+    outline: 1px solid var(--rule);
+    outline-offset: -12px;
+  }
+  header { text-align: center; margin-bottom: 28px; }
+  .stars { color: var(--tomato); letter-spacing: .5em; font-size: 13px; margin: 0 0 10px; }
+  h1 {
+    font-family: Fraunces, Georgia, serif; font-weight: 700;
+    font-size: clamp(34px, 8vw, 54px); line-height: 1.02; letter-spacing: -.01em;
+    margin: 0;
+  }
+  h1 .planet { display: inline-block; transform: translateY(-.06em); }
+  .est { font-family: Fraunces, Georgia, serif; font-style: italic; color: var(--muted); margin: 10px 0 0; }
+  .divider {
+    display: flex; align-items: center; gap: 14px; margin: 26px 0 8px;
+    font-family: Fraunces, Georgia, serif; font-weight: 500;
+    font-size: 13px; letter-spacing: .3em; text-transform: uppercase; color: var(--tomato);
+  }
+  .divider::before, .divider::after { content: ""; flex: 1; border-top: 1px solid var(--rule); }
+
+  ul.dishes { list-style: none; margin: 0; padding: 0; }
+  a.dish {
+    display: grid; grid-template-columns: 56px 1fr; gap: 16px; align-items: start;
+    padding: 18px 12px; margin: 0 -12px; border-radius: 12px;
+    color: inherit; text-decoration: none;
+    transition: background .15s ease;
+  }
+  a.dish:hover { background: color-mix(in srgb, var(--accent) 9%, transparent); }
+  a.dish:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  li + li a.dish { border-top: 1px dashed var(--rule); border-radius: 0; }
+  li + li a.dish:hover { border-radius: 12px; }
+  .plate {
+    width: 56px; height: 56px; border-radius: 50%;
+    display: grid; place-items: center; font-size: 26px;
+    background: var(--paper);
+    box-shadow: inset 0 0 0 5px color-mix(in srgb, var(--accent) 22%, transparent), 0 2px 6px rgba(60,40,20,.15);
+    transition: transform .25s ease;
+  }
+  a.dish:hover .plate { transform: rotate(-12deg) scale(1.06); }
+  .line { display: flex; align-items: baseline; gap: 8px; }
+  h2 {
+    font-family: Fraunces, Georgia, serif; font-weight: 700;
+    font-size: 21px; line-height: 1.2; margin: 0;
+  }
+  .leader { flex: 1; min-width: 16px; border-bottom: 2px dotted var(--rule); transform: translateY(-4px); }
+  .price { font-weight: 700; color: var(--accent); white-space: nowrap; font-size: 14px; }
+  .course { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 2px 0 4px; }
+  .desc { margin: 0; color: var(--muted); font-size: 15px; }
+  .go { display: inline-block; margin-top: 6px; font-weight: 700; font-size: 14px; color: var(--ink); }
+  a.dish:hover .go { color: var(--accent); }
+
+  footer {
+    text-align: center; margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--rule);
+    font-family: Fraunces, Georgia, serif; font-style: italic; color: var(--muted); font-size: 15px;
+  }
+  footer p { margin: 2px 0; }
+  footer a { color: inherit; }
+
+  @media (prefers-color-scheme: dark) {
+    .plate { box-shadow: inset 0 0 0 5px color-mix(in srgb, var(--accent) 30%, transparent), 0 2px 6px rgba(0,0,0,.4); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .plate, a.dish { transition: none; }
+    a.dish:hover .plate { transform: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <article class="menu">
+    <header>
+      <p class="stars" aria-hidden="true">✦ ✦ ✦</p>
+      <h1>The Cosmic <span class="planet" aria-hidden="true">🪐</span> Kitchen</h1>
+      <p class="est">Now serving · open all hours</p>
+    </header>
+
+    <div class="divider">Today's menu</div>
+
+    <ul class="dishes">
+      <li>
+        <a class="dish" style="--accent:#d0582f" href="https://thecosmickitchen.github.io/stay-home-synths/">
+          <span class="plate" aria-hidden="true">🎛️</span>
+          <div>
+            <div class="line"><h2>Just Stay Home and Play Synthesizers</h2><span class="leader"></span><span class="price">free</span></div>
+            <p class="course">Sizzling starter · synth playground</p>
+            <p class="desc">Two oscillators fried in a filter, a 16-step drum machine on the side, an XY pad and a waveform you roll out yourself.</p>
+            <span class="go">Dig in →</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a class="dish" style="--accent:#3b8f55" href="https://thecosmickitchen.github.io/Oishiii/">
+          <span class="plate" aria-hidden="true">🍣</span>
+          <div>
+            <div class="line"><h2>Oishii おいしい</h2><span class="leader"></span><span class="price">free</span></div>
+            <p class="course">Chef's special · learn Japanese</p>
+            <p class="desc">Kana grown fresh in the garden, kanji popped from the pot and sushi for your buds. Comes with a station stamp for every kanji you learn.</p>
+            <span class="go">Itadakimasu →</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a class="dish" style="--accent:#5b5ce2" href="https://thecosmickitchen.github.io/FretGrind/">
+          <span class="plate" aria-hidden="true">🎸</span>
+          <div>
+            <div class="line"><h2>Fret Grind</h2><span class="leader"></span><span class="price">free</span></div>
+            <p class="course">Slow-cooked main · learn music</p>
+            <p class="desc">Guitar fretboard and sight-reading flash cards, chords and scales spelled out, and ear training on the side. Keeps well offline.</p>
+            <span class="go">Start grinding →</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a class="dish" style="--accent:#b8841f" href="https://thecosmickitchen.github.io/The-Puzz/">
+          <span class="plate" aria-hidden="true">🧩</span>
+          <div>
+            <div class="line"><h2>The Puzz</h2><span class="leader"></span><span class="price">free</span></div>
+            <p class="course">Daily dessert · puzzles</p>
+            <p class="desc">A fresh batch of puzzles baked every morning, with endless refills when you want seconds.</p>
+            <span class="go">Grab a slice →</span>
+          </div>
+        </a>
+      </li>
+    </ul>
+
+    <footer>
+      <p>Everything is served in your browser: no sign-up, nothing to install.</p>
+      <p>Home cooking from another world.</p>
+      <p>Cooked up by <a href="https://github.com/TheCosmicKitchen">The SpaceChef</a>.</p>
+    </footer>
+  </article>
+</main>
+</body>
+</html>
