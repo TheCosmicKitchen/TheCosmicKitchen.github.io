@@ -6,7 +6,7 @@
 <title>The Cosmic Kitchen</title>
 <meta name="description" content="The Cosmic Kitchen: free web tools, made from scratch and served in your browser. Daily puzzles and daily creative prompts; courses in guitar, Japanese and synths; a card-crafting roguelike and a chill retro TV station.">
 <meta name="theme-color" content="#f4ecdc">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍳</text></svg>">
+<link rel="icon" type="image/png" href="img/oven.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -96,6 +96,15 @@
     transition: transform .25s ease; }
   a.dish:hover .plate { transform: rotate(-12deg) scale(1.06); }
   .plate .logo { width: 38px; height: auto; display: block; }
+  /* Pixel Patisserie sprites: 64px art drawn without smoothing. Animated ones are a strip of frames in one row. */
+  .plate .px { --s: 40px; width: var(--s); height: var(--s); display: block; image-rendering: pixelated; }
+  .plate .strip { background: var(--src) 0 0 / auto var(--s) no-repeat; }
+  .plate .synth { --src: url(img/synth-anim.png); animation: px-synth .8s steps(8) infinite; }
+  .plate .build { --src: url(img/puzzle-build.png); background-position: calc(var(--s) * -12) 0; animation: px-build 1.3s steps(12) both; }
+  a.dish:hover .plate .build { animation-name: px-build-again; }
+  @keyframes px-synth { to { background-position: calc(var(--s) * -8) 0; } }
+  @keyframes px-build { from { background-position: 0 0; } to { background-position: calc(var(--s) * -12) 0; } }
+  @keyframes px-build-again { from { background-position: 0 0; } to { background-position: calc(var(--s) * -12) 0; } }
   .line { display: flex; align-items: baseline; gap: 8px; }
   h3 { margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: 22px; line-height: 1.2; }
   h3 small { font-weight: 500; font-size: .8em; color: var(--muted); }
@@ -123,11 +132,13 @@
     .menu { padding-top: 46px; }
     a.dish { grid-template-columns: 48px 1fr; gap: 14px; }
     .plate { width: 48px; height: 48px; font-size: 23px; }
+    .plate .px { --s: 32px; }
     h3 { font-size: 20px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .plate, a.dish { transition: none; }
     a.dish:hover .plate { transform: none; }
+    .plate .strip, a.dish:hover .plate .strip { animation: none; }
   }
 </style>
 </head>
@@ -155,7 +166,7 @@
       <ul class="dishes">
         <li>
           <a class="dish" style="--accent:#b8841f" href="https://thecosmickitchen.github.io/The-Puzz/">
-            <span class="plate" aria-hidden="true">🧩</span>
+            <span class="plate" aria-hidden="true"><span class="px strip build"></span></span>
             <div>
               <div class="line"><h3>The Puzz</h3><span class="leader"></span><span class="price">free</span></div>
               <p class="tag">Baked daily · puzzles</p>
@@ -166,7 +177,7 @@
         </li>
         <li>
           <a class="dish" style="--accent:#b8417a" href="https://thecosmickitchen.github.io/The-Muze/">
-            <span class="plate" aria-hidden="true">🎨</span>
+            <span class="plate" aria-hidden="true"><img class="px" src="img/pearl-earring.png" alt="" width="64" height="64"></span>
             <div>
               <div class="line"><h3>The Muze</h3><span class="leader"></span><span class="price">free</span></div>
               <p class="tag">Served warm · make something</p>
@@ -194,7 +205,7 @@
         </li>
         <li>
           <a class="dish" style="--accent:#3b8f55" href="https://thecosmickitchen.github.io/Oishiii/">
-            <span class="plate" aria-hidden="true">🍣</span>
+            <span class="plate" aria-hidden="true"><img class="px" src="img/sushi.png" alt="" width="64" height="64"></span>
             <div>
               <div class="line"><h3>Oishii <small lang="ja">おいしい</small></h3><span class="leader"></span><span class="price">free</span></div>
               <p class="tag">Chef’s special · Japanese</p>
@@ -205,7 +216,7 @@
         </li>
         <li>
           <a class="dish" style="--accent:#d0582f" href="https://thecosmickitchen.github.io/stay-home-synths/">
-            <span class="plate" aria-hidden="true"><img class="logo" src="img/synth.png" alt="" width="54" height="49"></span>
+            <span class="plate" aria-hidden="true"><span class="px strip synth"></span></span>
             <div>
               <div class="line"><h3>Just Stay Home and Play Synthesizers</h3><span class="leader"></span><span class="price">free</span></div>
               <p class="tag">Sizzling starter · synths</p>
@@ -233,7 +244,7 @@
         </li>
         <li>
           <a class="dish" style="--accent:#9a55c4" href="https://thecosmickitchen.github.io/ghoul-amp/">
-            <span class="plate" aria-hidden="true">📺</span>
+            <span class="plate" aria-hidden="true"><img class="px" src="img/tv.png" alt="" width="64" height="64"></span>
             <div>
               <div class="line"><h3>Channel Chill</h3><span class="leader"></span><span class="price">free</span></div>
               <p class="tag">Late-night snack · chill TV</p>
